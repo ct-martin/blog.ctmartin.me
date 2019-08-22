@@ -1,0 +1,51 @@
+---
+title: Hugo & the 2 Second Pipeline
+date: Fri, 08 Aug 2019 18:44:00 +0000
+draft: false
+tags: ['Software', 'Servers', 'Web Dev']
+---
+
+This summer I converted my blog to use [Hugo](https://gohugo.io/), a static site generator, and [GitLab](https://gitlab.com/) Pages for a simple, lightning-fast, and secure writing experience.
+
+<!--more-->
+
+First off, why did I leave WordPress?
+WordPress is an amazing piece of software and I'd still recommend it.
+WordPress' Gutenburg editor, Jetpack plugin, and new auto-updates are all amazing and easy to work with.
+However, keeping it & my VPS up to date has overhead, primarily in time.
+Not a ton, but enough to not motivate me.
+Additionally, I've done enough with security stuff to know my setup needs work, yet that work would take more time then I'm willing to put in.
+
+The final straw for me was that when rebuilding my VPS (previously Debian 9) I found that Fedora 30's `wordpress` package did not set up some permissioning out of the box & WordPress couldn't write to disk.
+I ended up rebuilding it to Debian 10, but I wasn't motivate to get a working web server up at the time.
+Finally, I've used Jekyll in the past and I'd heard amazing things about Hugo (some of which addressing my major pain points with Jekyll, most notably the build time).
+
+So, I went about learning how to use Hugo.
+The quick-start guide is great if you're planning to use a pre-built theme, however, unfortunately the theme/template guides do not have a quick-start.
+Once I figured out how to make the theme & templates it was really easy, but getting started took longer than I'd have liked.
+
+I used [this](???) amazing script to convert my WordPress export to Markdown.
+It wasn't perfect, but a large part of that was also that the content from WordPress' classic editor not exporting correctly (since re-importing to a quick WordPress instance didn't display correctly either).
+I had to make a couple tweaks to it (which went into a PR that got accepted :) ) to make it work for my configuration, but it was simple code which made it easy to work with.
+
+Cleaning up the posts took a decent amount of time, but now that they're in Markdown they're reall portable and that makes me happy and the effort worth it.
+Because I made a simple (custom) theme, the code is also small which makes my life easier.
+
+I was also very happy to find out that Hugo's "Extended" edition supports SASS.
+I've been using SASS at my co-op this summer and I really like it.
+I'm not so fond of the full SASS syntax, but I _really_ like the SCSS syntax.
+
+The icing on the cake is GitLab CI & Hugo's build times.
+While the code is hosted on GitHub, I'm using GitLab.com's "CI/CD for External Repositories" which adds a webhook to GitHub so it pulls automatically when I push to GitHub.
+Then, GitLab runs a pipeline that builds the site as an atifact for GitLab Pages.
+Hugo compiles the site in about 0.2s, and the _entire_ CI Pipelline reports as a 2s run.
+
+These times are _really_ nice and admittedly I've already tested in production because of how fast it it...
+
+Finally, Cloudflare points to GitLab pages and adding the route was easy apart from needing to find the documentation on adding the CABUNDLE for the origin cert.
+
+So, I've got a new blg site now.
+If you see "Content Reflow" in the changelog of any pages, it means I lost (or intentionally modified) the paragraph breaks of a page.
+I'm super happy with this site (minus a bug from not testing browser cross-compatibility enough) and Hugo, Markdown, GitLab, & Cloudflare have made this site both fst, secure, and convenient for me to do.
+
+And no server maintenance :)
